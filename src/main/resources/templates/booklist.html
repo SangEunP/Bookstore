@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<h2>Books</h2>
+    <h2>Books</h2>
     <table border="1" class="table">
         <thead>
             <tr>
@@ -16,6 +16,8 @@
                 <th>ISBN</th>
                 <th>Year</th>
                 <th>Price(€)</th>
+                <th>Category</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,13 +27,15 @@
                 <td th:text="${book.ISBN}"></td>
                 <td th:text="${book.pubYear}"></td>
                 <td th:text="${book.price}"></td>
+                <td th:text="${book.category.name}"></td>
                 <td>
                     <a th:href="@{'/delete/' + ${book.id}}" class="btn btn-danger">Delete</a>
-                    <a th:href="@{'/editbook/' + ${book.id}}" class="btn btn-danger">Edit book</a>
+                    <a th:href="@{'/editbook/' + ${book.id}}" class="btn btn-success">Edit</a>
                 </td>
             </tr>
         </tbody>
     </table>
     
     <a th:href="@{/addbook}" class="btn btn-success">Add Book</a>
+</body>
 </html>

@@ -1,31 +1,56 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Edit Book</title>
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body>
     <h1>Edit Book</h1>
     <div>
-        <form th:object="${book}" th:action="@{/editbook/{id}(id=${book.id})}" method="post">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" th:field="*{title}" required><br>
+        <form th:action="@{/editbook/{id}(id=${book.id})}" th:object="${book}" method="post">
+            <input type="hidden" id="id" th:field="*{id}" readonly="readonly" />
+            
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" th:field="*{title}" required><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" th:field="*{author}" required><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="ISBN">ISBN:</label>
+                <input type="text" id="ISBN" th:field="*{ISBN}" required><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="pubYear">Publication Year:</label>
+                <input type="text" id="pubYear" th:field="*{pubYear}" required><br>
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price(€):</label>
+                <input type="text" id="price" th:field="*{price}" required><br>
+            </div>
+            
+            <div class="form-group">
+    			<label for="category">Category:</label>
+    			<select class="form-control" id="category" name="category.id" required>
+        		<option th:each="cat : ${categories}" 
+                		th:value="${cat.id}" 
+               			th:text="${cat.name}"
+                		th:selected="${cat.id == book.category?.id}">Category Name
+        		</option>
+    			</select>
+			</div>
 
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author" th:field="*{author}" required><br>
-
-            <label for="ISBN">ISBN:</label>
-            <input type="text" id="ISBN" name="ISBN" th:field="*{ISBN}" required><br>
-
-            <label for="pubYear">Publication Year:</label>
-            <input type="text" id="pubYear" name="pubYear" th:field="*{pubYear}" required><br>
-
-            <label for="price">Price:</label>
-            <input type="text" id="price" name="price" th:field="*{price}" required><br>
-
-            <button type="submit">Save</button>
+            <button type="submit" class="btn btn-success">Save</button>
         </form>
     </div>
 </body>
 </html>
+
+
