@@ -1,13 +1,23 @@
 package com.example.Bookstore.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String title;
 	private String author;
 	private int pubYear;
 	private String ISBN;
 	private double price;
 	
+	public Book () {}
 	public Book (String title, String author, int pubYear, String ISBN, double price){
+		super();
 		this.title = title;
 		this.author = author;
 		this.pubYear = pubYear;
