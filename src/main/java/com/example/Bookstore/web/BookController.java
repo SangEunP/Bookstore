@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Bookstore.domain.*;
 
@@ -22,7 +24,8 @@ public class BookController {
 	public Book book() {
 		return new Book();
 	}
-
+	
+	//List
 	@GetMapping("/booklist")
     public String bookList(Model model) {
         List<Book> books = (List<Book>) bookRepository.findAll();
@@ -30,6 +33,7 @@ public class BookController {
         return "booklist";
     }
 	
+	//Delete
 	@GetMapping("/delete/{id}")
 	public String deleteBook(@PathVariable Long id) {
 	    bookRepository.deleteById(id);
@@ -37,6 +41,7 @@ public class BookController {
 	    return "redirect:/booklist";
 	}
 	
+	//ADD
 	@GetMapping("/addbook")
     public String addBookForm(Model model) {
         model.addAttribute("book", new Book());
@@ -46,6 +51,39 @@ public class BookController {
     @PostMapping("/addbook")
     public String addBook(@ModelAttribute("book") Book book) {
         bookRepository.save(book);
+        return "redirect:/booklist";
+    }
+    
+    //Edit
+    @GetMapping("/editbook/{id}")
+    public String editBookForm(@PathVariable Long id, Model model) {
+        Book book = bookRepository.findById(id).orElse(null);
+        
+        if (book == null) {
+            return "redirect:/booklist";
+        }
+
+        model.addAttribute("book", book);
+
+        return "editbook";
+    }
+
+    @PostMapping("/editbook/{id}")
+    public String editBook(@PathVariable Long id, @ModelAttribute("book") Book editedBook) {
+        Book book = bookRepository.findById(id).orElse(null);
+        
+        if (book == null) {
+            return "redirect:/booklist";
+        }
+
+        book.setTitle(editedBook.getTitle());
+        book.setAuthor(editedBook.getAuthor());
+        book.setPubYear(editedBook.getPubYear());
+        book.setISBN(editedBook.getISBN());
+        book.setPrice(editedBook.getPrice());
+
+        bookRepository.save(book);
+
         return "redirect:/booklist";
     }
 }
