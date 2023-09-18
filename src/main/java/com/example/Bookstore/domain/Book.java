@@ -1,5 +1,7 @@
 package com.example.Bookstore.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -65,6 +67,7 @@ public class Book {
 	//Category
 	@ManyToOne
     @JoinColumn(name = "category_id")
+	@JsonIgnore
     private Category category;
 	
 	public Category getCategory() {
