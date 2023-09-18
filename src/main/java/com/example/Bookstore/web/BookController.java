@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Bookstore.domain.*;
@@ -102,5 +105,30 @@ public class BookController {
     @GetMapping("/books")
     public List<Book> getAllBooks() {
         return (List<Book>) bookRepository.findAll();
+    }
+    
+    @GetMapping("/books/{id}")
+    public @ResponseBody Book findBookRest(@PathVariable("id") Long bookId){
+    	return bookRepository.findById(bookId).orElse(null);
+    }
+    
+    @PostMapping("/books")
+    public Book addBookREST(@RequestBody Book book, @RequestParam("category.id") Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        if (category != null) {
+            book.setCategory(category);
+            bookRepository.save(book);
+        }
+        return book;
+    }
+    
+    @DeleteMapping("/books/{id}")
+    public String deleteBookREST(@PathVariable("id") Long bookId) {
+        if (bookRepository.existsById(bookId)) {
+            bookRepository.deleteById(bookId);
+            return "Book with ID " + bookId + " has been deleted.";
+        } else {
+            return "Book with ID " + bookId + " not found.";
+        }
     }
 }
