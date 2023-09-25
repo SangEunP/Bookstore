@@ -1,24 +1,29 @@
 package com.example.Bookstore;
 
 import org.springframework.boot.CommandLineRunner;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
+import com.example.Bookstore.domain.AppUser;
+import com.example.Bookstore.domain.AppUserRepository;
 import com.example.Bookstore.domain.Book;
 import com.example.Bookstore.domain.BookRepository;
 import com.example.Bookstore.domain.Category;
 import com.example.Bookstore.domain.CategoryRepository;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.example.Bootstore")
 public class BookstoreApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 	
 	@Bean
-	public CommandLineRunner initData(BookRepository bookRepository, CategoryRepository categoryRepository) {
+	public CommandLineRunner initData(BookRepository bookRepository, CategoryRepository categoryRepository, AppUserRepository appuserRepository) {
 	    return (args) -> {
 	        // Insert categories
 	        Category fictionCategory = new Category("Fiction");
@@ -42,6 +47,12 @@ public class BookstoreApplication {
 	        bookRepository.save(b1);
 	        bookRepository.save(b2);
 	        bookRepository.save(b3);
+	        
+	        // Create users: admin/admin user/user
+	        AppUser user1 = new AppUser("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$08$bCCcGjB03eulCWt3CY0AZew2rVzXFyouUolL5dkL/pBgFkUH9O4J2", "ADMIN");
+			appuserRepository.save(user1);
+			appuserRepository.save(user2);
 	    };
 	}
 
