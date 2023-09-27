@@ -67,4 +67,14 @@ public class AppUser {
 			this.role = role;
 		}
 
+		public AppUser get(int i) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Object stream() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 }
