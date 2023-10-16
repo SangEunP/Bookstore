@@ -4,6 +4,8 @@ import org.springframework.boot.CommandLineRunner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -15,10 +17,12 @@ import com.example.Bookstore.domain.Category;
 import com.example.Bookstore.domain.CategoryRepository;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.example.Bootstore")
-public class BookstoreApplication {
+public class BookstoreApplication extends SpringBootServletInitializer {
+	protected SpringApplicationBuilder configure (SpringApplicationBuilder application) {
+		return application.sources(BookstoreApplication.class);
+	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 	
